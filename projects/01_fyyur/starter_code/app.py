@@ -39,6 +39,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 class Venue(db.Model):
     __tablename__ = 'Venue'
+    __searchable__ = ["name","city","state","address"]
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -48,11 +49,16 @@ class Venue(db.Model):
     phone = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
+    website = db.Column(db.String())
+    seeking_description = db.Column(db.String(120))
+    seeking_talent = db.Column(db.Boolean, default=False)
 
+    shows = db.relationship('Show', backref = 'venue')
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 class Artist(db.Model):
     __tablename__ = 'Artist'
+    __searchable__ = ["name","city","state","address"]
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -62,6 +68,11 @@ class Artist(db.Model):
     genres = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
+    seeking_description = db.Column(db.String(200))
+    seeking_venue = db.Column(db.Boolean, default=False)
+    website = db.Column(db.String())
+  
+    shows = db.relationship('Show', backref= 'artist')
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
